@@ -7,6 +7,9 @@ import AddTodo from './components/AddTodo';
 
 const App = () => {
 
+
+  const BASE_URL = 'http://localhost:8181/api/todos';
+
   const [itemList, setItemList] = useState([
     // {
     //     id: 1,
@@ -31,13 +34,16 @@ const App = () => {
   // 할 일 추가 처리 함수
   const add = (item) => {
     
-    item.id = itemList.length + 1;
-    item.done = false;
-    
-    // console.log('add 호출됨!!');
-    // console.log(item);
-    
-    setItemList(itemList => itemList.concat(item));
+      fetch(BASE_URL, {
+          method: 'POST',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify(item)
+      })
+      .then(res => res.json())
+      .then(json => {
+          // console.log(json);
+          setItemList(json.todos);
+      });
   };
   
   // Todo에게 보낼 삭제함수
@@ -45,18 +51,27 @@ const App = () => {
   const remove = target => {
       // console.log(target);
 
-      const filteredItemList 
-        = itemList.filter(item => target.id !== item.id);
-      
-      setItemList(filteredItemList);
+      fetch(BASE_URL + `/${target.id}`, {
+          method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(json => {
+          setItemList(json.todos);
+      });
   };
   
   const todoItems = itemList.map(item => 
   <Todo key={item.id} item={item} remove={remove} />);
 
   useEffect(() => {
-      // console.log('재 렌더링!!');
-      // console.log(itemList);
+      
+     fetch(BASE_URL)
+      .then(res => res.json())
+      .then(json => {
+          // console.log(json.todos);
+          setItemList(json.todos);
+      });
+
   }, []);
 
 
