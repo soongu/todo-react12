@@ -26,8 +26,8 @@ const Todo = ({ item, remove }) => {
                 <InputBase
                     inputProps={{"aria-label" : "naked"}}
                     type="text"
-                    id={id}
-                    name={id}
+                    id={id.toString()}
+                    name={id.toString()}
                     value={title}
                     multiline={true}
                     fullWidth={true}

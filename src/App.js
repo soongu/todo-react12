@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'; 
 import './css/main.css';
 import Todo from './components/Todo';
-import { List } from '@mui/material';
+import { List, Paper, Container } from '@mui/material';
 import AddTodo from './components/AddTodo';
 
 
@@ -77,10 +77,14 @@ const App = () => {
 
   return (
     <div className="wrapper">
-      <AddTodo add={add} />
-      <List>
-          {todoItems}
-      </List>
+      <Container maxWidth="md">
+        <AddTodo add={add} />
+        <Paper style={{margin: 16}}>
+          <List>
+              {todoItems}
+          </List>
+        </Paper>
+      </Container>
     </div>
   );
 };
