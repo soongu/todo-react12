@@ -4,11 +4,9 @@ import Todo from './components/Todo';
 import { List, Paper, Container } from '@mui/material';
 import AddTodo from './components/AddTodo';
 
+export const BASE_URL = 'http://localhost:8181/api/todos';
 
 const App = () => {
-
-
-  const BASE_URL = 'http://localhost:8181/api/todos';
 
   const [itemList, setItemList] = useState([
     // {
@@ -59,9 +57,20 @@ const App = () => {
           setItemList(json.todos);
       });
   };
+
+  // 서버에 수정요청하는 함수
+  const update = (item) => {
+    console.log('2:',item);
+    fetch(BASE_URL, {
+        method: 'PUT',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(item)
+    })
+    ;
+};
   
   const todoItems = itemList.map(item => 
-  <Todo key={item.id} item={item} remove={remove} />);
+  <Todo key={item.id} item={item} remove={remove} update={update} />);
 
   useEffect(() => {
       

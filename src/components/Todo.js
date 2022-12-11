@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 //https://mui.com/material-ui/getting-started/learn/
 import {ListItem, ListItemText, 
@@ -7,11 +7,15 @@ import {ListItem, ListItemText,
 import { DeleteOutline } from '@mui/icons-material';
 
 
-const Todo = ({ item, remove }) => {
+
+const Todo = ({ item, remove, update }) => {
 
     // console.log(item);
 
-    const {id, title, done} = item;
+    const [itemState, setItemState] = useState(item);
+
+    const {id, title, done} = itemState;
+    console.log('itemState:', itemState);
 
     // 삭제 이벤트 핸들러
     const removeHandler = e => {
@@ -19,9 +23,21 @@ const Todo = ({ item, remove }) => {
         remove(item);
     };
 
+    
+
+    // 체크박스 체인지 이벤트 핸들러
+    const checkHandler = e => {
+        console.log('체크박스 버튼 누름1');
+        setItemState({...itemState, done: !itemState.done});
+    };
+
+    useEffect(() => {
+        update(itemState);
+    }, [itemState])
+
     return (
         <ListItem>
-            <Checkbox checked={done} />
+            <Checkbox checked={done} onChange={checkHandler} />
             <ListItemText>
                 <InputBase
                     inputProps={{"aria-label" : "naked"}}
