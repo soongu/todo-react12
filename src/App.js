@@ -4,7 +4,9 @@ import Todo from './components/Todo';
 import { List, Paper, Container } from '@mui/material';
 import AddTodo from './components/AddTodo';
 
-export const BASE_URL = 'http://localhost:8181/api/todos';
+import { API_BASE_URL } from './config/host-config';
+
+export const BASE_URL = API_BASE_URL + '/api/todos';
 
 const App = () => {
 

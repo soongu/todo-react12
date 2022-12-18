@@ -7,7 +7,6 @@ import {ListItem, ListItemText,
 import { DeleteOutline } from '@mui/icons-material';
 
 
-
 const Todo = ({ item, remove, update }) => {
 
     // console.log(item);
@@ -15,7 +14,7 @@ const Todo = ({ item, remove, update }) => {
     const [itemState, setItemState] = useState(item);
 
     const {id, title, done} = itemState;
-    console.log('itemState:', itemState);
+    // console.log('itemState:', itemState);
 
     // 삭제 이벤트 핸들러
     const removeHandler = e => {

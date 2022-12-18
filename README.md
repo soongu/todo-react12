@@ -9,4 +9,7 @@ $ npm start
 ```
 $ npm install @mui/material @emotion/react @emotion/styled
 $ npm install @mui/icons-material
+
+# 리액트 라우팅
+$ npm install react-router-dom
 ```
