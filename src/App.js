@@ -103,10 +103,9 @@ const App = () => {
      })
       .then(res => {
         if (res.status === 403) {
-           setTimeout(()=>{
-            
-             alert('로그인이 필요한 서비스입니다.');
-             window.location.href='/login';
+           setTimeout(() => {
+              alert('로그인이 필요한 서비스입니다.');
+              window.location.href='/login';
            }, 500)
            return;
         } else {
