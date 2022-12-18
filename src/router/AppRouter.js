@@ -12,7 +12,7 @@ const AppRouter = () => {
             <Route path="/" element={<App />} />
             {/* '/login' 경로로 요청하면 Login컴포넌트를 렌더링하세요 */}
             <Route path="/login" element={<Login />} />
-        </Routes>
+        </Routes>    
     );
 };
 
