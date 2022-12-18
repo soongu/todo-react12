@@ -30,9 +30,29 @@ const Login = () => {
                 password: $password.value
             })
         })
-        .then(res => res.json())
+        .then(res => {
+            // console.log('res code:', res.status);
+            return res.json();
+        })
         .then(loginUserData => {
             console.log(loginUserData);
+            if (loginUserData.message) {
+                // console.log('로그인 실패');
+                alert(loginUserData.message);
+            } else {
+                // console.log('로그인 성공');
+
+                // 로그인 성공시 받은 토큰을 로컬 스토리지에 저장
+                localStorage.setItem('ACCESS_TOKEN', loginUserData.token);
+                localStorage.setItem('LOGIN_USERNAME', loginUserData.username);
+
+                // 할일 목록 보여주기
+                window.location.href = '/';
+            }
+        })
+        // 서버가 200번이아닌 오류코드를 보낼경우 실행할 코드
+        .catch(err => {
+            console.log('err:', err.message);
         })
     };
 

@@ -8,7 +8,11 @@ import { API_BASE_URL } from './config/host-config';
 
 export const BASE_URL = API_BASE_URL + '/api/todos';
 
+
 const App = () => {
+  
+  // 토큰 가져오기
+  const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN');
 
   const [itemList, setItemList] = useState([
     // {
@@ -36,7 +40,10 @@ const App = () => {
     
       fetch(BASE_URL, {
           method: 'POST',
-          headers: { 'Content-type': 'application/json' },
+          headers: { 
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer ' + ACCESS_TOKEN 
+          },
           body: JSON.stringify(item)
       })
       .then(res => res.json())
@@ -52,7 +59,10 @@ const App = () => {
       // console.log(target);
 
       fetch(BASE_URL + `/${target.id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: { 
+            'Authorization': 'Bearer ' + ACCESS_TOKEN 
+          },
       })
       .then(res => res.json())
       .then(json => {
@@ -62,10 +72,13 @@ const App = () => {
 
   // 서버에 수정요청하는 함수
   const update = (item) => {
-    console.log('2:',item);
+    // console.log('2:',item);
     fetch(BASE_URL, {
         method: 'PUT',
-        headers: { 'Content-type': 'application/json' },
+        headers: { 
+          'Content-type': 'application/json',
+          'Authorization': 'Bearer ' + ACCESS_TOKEN 
+        },
         body: JSON.stringify(item)
     })
     ;
@@ -75,8 +88,14 @@ const App = () => {
   <Todo key={item.id} item={item} remove={remove} update={update} />);
 
   useEffect(() => {
-      
-     fetch(BASE_URL)
+    
+     // 할일 목록 불러오기
+     fetch(BASE_URL, {
+        method: 'GET',
+        headers: {
+           'Authorization': 'Bearer ' + ACCESS_TOKEN 
+        }
+     })
       .then(res => res.json())
       .then(json => {
           // console.log(json.todos);
