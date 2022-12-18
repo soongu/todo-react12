@@ -1,5 +1,6 @@
 import React from 'react';
 import {AppBar, Toolbar, Grid, Typography, Button} from "@mui/material";
+import { Link } from 'react-router-dom';
 
 
 const Header = () => {
@@ -15,7 +16,13 @@ const Header = () => {
     
     const button = USERNAME 
             ? (<Button color="inherit" onClick={logoutHandler}>로그아웃</Button>) 
-            : (<Button color="inherit" onClick={() => { window.location.href='/login'; }}>로그인</Button>);
+            : (
+                <>
+                    <Link to='/login' style={{ color: '#fff', marginRight: 20, textDecoration: 'none' }}>로그인</Link>
+                    
+                    <Link to='/join' style={{ color: '#fff', textDecoration: 'none' }}>회원가입</Link>
+                </>
+            );
 
     return (
         <AppBar position="fixed">
