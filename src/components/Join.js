@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {Button, Container, Grid, TextField, Typography, Link} from "@mui/material";
 
 import { API_BASE_URL } from "../config/host-config";
 import { isValidDateValue } from "@testing-library/user-event/dist/utils";
 
 const Join = () => {
+
+    // 파일 인풋 DOM객체 useRef로 관리하기
+    const $fileInput = useRef();
+
+    // 이미지 파일 정보 상태관리
+    const [imgFile, setImgFile] = useState(null);
 
     // 회원 입력 정보 상태관리
     const [user, setUser] = useState({
@@ -144,6 +150,31 @@ const Join = () => {
         }
     };
 
+    // 첨부파일 추가 클릭 기능
+    
+    const fileClickHandler = e => {
+        // const $fileInput = document.getElementById('profileImg');
+        $fileInput.current.click();
+    };
+
+    // 이미지 썸네일 체인지 이벤트
+    const showImageHandler = e => {
+
+        // 첨부파일의 데이터를 읽어온다.
+        const fileData = $fileInput.current.files[0];
+        // 첨부파일의 바이트데이터를 읽기 위한 객체
+        const reader = new FileReader(); 
+        // 파일 바이트데이터를 img src나 a의 href에 넣기위한
+        // 모양으로 바꿔서 로딩해줌
+        reader.readAsDataURL(fileData);
+        
+        // 첨부파일이 등록되는 순간에 이미지 셋팅
+        reader.onloadend = e => {
+            // 이미지 src 등록
+            setImgFile(reader.result);
+        };
+    };
+
     return (
         <Container component="main" maxWidth="xs" style={{ marginTop: "180px" }}>
             <form noValidate onSubmit={joinHandler}>
@@ -153,6 +184,28 @@ const Join = () => {
                             계정 생성
                         </Typography>
                     </Grid>
+
+                    <Grid item xs={12}>
+                        <div className="thumbnail-box" onClick={fileClickHandler}>
+                            <img 
+                                src={imgFile ? imgFile : require("../assets/img/image-add.png")} 
+                                alt="프로필 썸네일" 
+                            />
+                        </div>
+
+                        <label className="signup-img-label" htmlFor="profileImg">프로필 이미지 추가</label>
+
+                        <input 
+                            id="profileImg"
+                            type="file" 
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={showImageHandler}
+                            ref={$fileInput}
+                        />
+                    </Grid>
+
+
                     <Grid item xs={12}>
                         <TextField
                             autoComplete="fname"
